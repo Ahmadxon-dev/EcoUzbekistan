@@ -3,8 +3,10 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import {Toaster} from "@/components/ui/toaster";
-import {Provider} from "react-redux";
+import {Provider, useDispatch} from "react-redux";
 import store from "@/app/store/store";
+import {useEffect} from "react";
+import {setArray} from "@/app/store/userSlice";
 
 
 // const geistSans = localFont({
@@ -24,6 +26,7 @@ import store from "@/app/store/store";
 // };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <body

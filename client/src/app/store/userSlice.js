@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+// typeof window !== 'undefined' ?  JSON.parse(localStorage.getItem("inspector")) || [] :
 const userSlice = createSlice({
     name: 'user',
     initialState: {
-        userData: JSON.parse(localStorage.getItem("inspector")) || [],
+        userData:  [],
     },
     reducers: {
         // increment: (state) => {

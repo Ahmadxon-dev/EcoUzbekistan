@@ -2,15 +2,21 @@
 import React, {useEffect, useState} from 'react';
 import {Loader2} from "lucide-react";
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useRouter} from "next/navigation";
+import {setArray} from "@/app/store/userSlice";
 
 function Page(props) {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const router = useRouter()
+    const dispatch = useDispatch()
     const userData = useSelector(state=>state.user.userData)
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem("inspector")) || [];
+        dispatch(setArray(data));
+    }, []);
     useEffect(() => {
 
         async function fetchPosts() {
@@ -38,7 +44,7 @@ function Page(props) {
             }
         }
         fetchPosts();
-    }, []);
+    }, [userData]);
 
     if (!data) return <div className={`grid  items-center justify-center m-auto`}>
         <h1>Ma'lumot yo'q</h1>
