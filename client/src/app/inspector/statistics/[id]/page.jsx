@@ -7,6 +7,9 @@ import {Loader2} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
+import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+
+
 
 function Page(props) {
     const params = useParams()
@@ -78,23 +81,49 @@ function Page(props) {
         }
     }, [url])
     return (
-        <div className={`grid  items-center justify-center mx-auto`}>
+        <div className={`grid pt-20  items-center justify-center mx-auto`}>
             <img src={data.image} className={`mx-auto`} alt={`rasm`} width={800} height={800}/>
-            <h1 className={`text-5xl text-center p-3`}>{data.crimeType}</h1>
-            <h2 className={`font-bold text-3xl p-2`}>Murojat qiluvchining F.I.SH: {data.fish}</h2>
-            <h2 className={`font-bold text-3xl p-2`}>Telefon raqami: {data.contact}</h2>
-            <h2 className={`font-bold text-3xl p-2`}>Turar viloyati:{data.region}</h2>
-            <h2 className={`font-bold text-3xl p-2`}>Murojat qiluvchidan qo'shimcha ma'lumot: {data.additionalData}</h2>
+            <Table className="border-collapse border border-slate-400 mt-5 w-[800px]">
+                <TableHeader>
+                    {/*<TableRow>*/}
+                    {/*    <TableHead className="w-[200px] border border-slate-300 bg-slate-50 font-bold">Name</TableHead>*/}
+                    {/*    <TableHead className="border border-slate-300 bg-slate-50 font-bold">Value</TableHead>*/}
+                    {/*</TableRow>*/}
+                </TableHeader>
+                <TableBody>
+                    <TableRow>
+                        <TableCell className="border border-slate-300 font-medium">Qoidabuzarlik turi</TableCell>
+                        <TableCell className="border border-slate-300">{data.crimeType}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className="border border-slate-300 font-medium">Murojat qiluvchining F.I.SH</TableCell>
+                        <TableCell className="border border-slate-300">{data.fish}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className="border border-slate-300 font-medium">Telefon raqami</TableCell>
+                        <TableCell className="border border-slate-300">{data.contact}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className="border border-slate-300 font-medium">Turar viloyati</TableCell>
+                        <TableCell className="border border-slate-300">{data.region}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className="border border-slate-300 font-medium">Murojat qiluvchidan qo'shimcha ma'lumot</TableCell>
+                        <TableCell className="border border-slate-300">{data.additionalData}</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+
 
             {
                 data.isDone
                     ?
                     <>
-                        <h1 className={`font-bold text-3xl p-3`}>Rasm joylangan</h1>
+                        <h1 className={`font-bold text-3xl my-3`}>Rasm joylangan</h1>
                         <img src={data.proofImage} className={`mx-auto`} alt="joylanganrasm" width={800} height={800}/>
                     </>
                     :
-                    <form className={`space-y-5 mt-16 max-w-md mx-auto p-6 w-1/2 bg-card rounded-lg shadow`}>
+                    <form className={`space-y-5 mt-16 max-w-md  mx-auto p-6 w-1/2 bg-card rounded-lg shadow`}>
                         <div className={``}>
 
                             <h1 className={`text-2xl text-center p-4`}>Muammoni hal qilinganligini isboti sifatida rasm

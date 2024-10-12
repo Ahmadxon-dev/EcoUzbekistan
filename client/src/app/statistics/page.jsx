@@ -58,7 +58,6 @@ function Page(props) {
     return (
         <>
             <Table className={`w-1/2 mx-auto`}>
-                <TableCaption>A list of your recent invoices.</TableCaption>
                 <TableHeader>
                     <TableRow>
                         <TableHead className="w-[100px]">Viloyat</TableHead>

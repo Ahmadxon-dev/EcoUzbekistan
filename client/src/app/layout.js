@@ -7,6 +7,7 @@ import {Provider, useDispatch} from "react-redux";
 import store from "@/app/store/store";
 import {useEffect} from "react";
 import {setArray} from "@/app/store/userSlice";
+import Head from "next/head";
 
 
 // const geistSans = localFont({
@@ -29,9 +30,15 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
+    <head>
+        <title>EcoUzbekistan</title>
+        {/*<meta name="description" content="Description here" />*/}
+
+    </head>
       <body
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+
       <Provider store={store}>
         <Navbar />
         {children}

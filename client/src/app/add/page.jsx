@@ -113,6 +113,7 @@ function Page(props) {
                             <SelectItem value="Sirdaryo">Sirdaryo</SelectItem>
                             <SelectItem value="Surxondaryo">Surxondaryo</SelectItem>
                             <SelectItem value="Toshkent">Toshkent</SelectItem>
+                            <SelectItem value="Qoraqalpog'iston">Qoraqalpogʻiston Respublikasi</SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>
