@@ -36,7 +36,7 @@ function Page(props) {
 
                 const fetchedData = await res.json();
                 setData(fetchedData);
-                console.log(fetchedData)
+                // console.log(fetchedData)
             } catch (err) {
                 console.error("Error fetching data:", err);
                 setError(err.message);
@@ -57,7 +57,7 @@ function Page(props) {
 
     return (
         <>
-            <Table className={`w-1/2 mx-auto`}>
+            <Table className={`w-2/3 mx-auto`}>
                 <TableHeader>
                     <TableRow>
                         <TableHead className="w-[100px]">Viloyat</TableHead>
@@ -66,6 +66,8 @@ function Page(props) {
                         <TableHead className="text-right">QoidaBuzarlik turi</TableHead>
                         <TableHead>Bajarilganmi</TableHead>
                         <TableHead>Tasdiqlanganmi</TableHead>
+                        <TableHead>Qo'shilgan sanasi</TableHead>
+                        <TableHead>Qolgan vaqt</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -79,6 +81,8 @@ function Page(props) {
                         <TableCell className="text-right">{post.crimeType}</TableCell>
                         <TableCell className={`font-bold`}>{post.isDone?"Bajarilgan":"Jarayonda"}</TableCell>
                        <TableCell className={`font-bold`}>{post.isApproved?"Tasdiqlandi":"Tasdiqlanmadi"}</TableCell>
+                       <TableCell>{post.createdAt?`${post.createdAt.toString().slice(0,10)}`:`sana yoq(hozircha)`}</TableCell>
+                       <TableCell>{post.createdAt && (10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))}</TableCell>
                     </TableRow>
                 })
 

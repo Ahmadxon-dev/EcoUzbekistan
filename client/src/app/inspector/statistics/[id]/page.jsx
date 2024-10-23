@@ -116,13 +116,14 @@ function Page(props) {
 
 
             {
-                data.isDone
-                    ?
-                    <>
+                data.isDone && <>
                         <h1 className={`font-bold text-3xl my-3`}>Rasm joylangan</h1>
                         <img src={data.proofImage} className={`mx-auto`} alt="joylanganrasm" width={800} height={800}/>
                     </>
-                    :
+            }
+            {   !data.isDone && !data.areTenDaysPassed &&
+                <>
+                    <h1 className={`text-red-600 font-bold text-3xl`}>{10 - Math.floor((new Date() - new Date(data.createdAt) )/ (1000*60*60*24))} kun qoldi</h1>
                     <form className={`space-y-5 mt-16 max-w-md  mx-auto p-6 w-1/2 bg-card rounded-lg shadow`}>
                         <div className={``}>
 
@@ -139,7 +140,11 @@ function Page(props) {
                             </Button>
                         </div>
                     </form>
+                </>
 
+            }
+            {
+                data.areTenDaysPassed && <h1 className={`text-red-600 font-bold text-3xl`}>10 kun ichida to'g'irlanmagan</h1>
             }
 
         </div>

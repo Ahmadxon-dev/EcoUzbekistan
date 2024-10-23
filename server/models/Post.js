@@ -36,7 +36,13 @@ const postSchema = new Schema({
     proofImage:{
         type:String,
         default:""
+    },
+    areTenDaysPassed: {
+        type: Boolean,
+        default: false
     }
-})
+},
+    {timestamps:true}
+)
 
 module.exports = model("Post", postSchema)

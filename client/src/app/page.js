@@ -11,11 +11,11 @@ export default function Home() {
     <div className="overflow-y-hidden pt-20 text-white w-full bg-[url('./bg.jpeg')] bg-no-repeat bg-cover bg-center h-screen  font-[family-name:var(--font-geist-sans)]">
 
       <div className="mx-auto max-w-7xl  px-10 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-4xl font-bold tracking-tight pt-10 sm:text-6xl">
-            Chiqindilarsiz Toshkent
+        <div className="mx-auto lg:mx-0">
+          <h2 className=" max-w-6xl text-4xl font-bold tracking-tight pt-10 sm:text-6xl">
+            Yosh ekologlar jamoat nazorati
           </h2>
-          <p className="mt-6 text-lg leading-8 ">
+          <p className=" max-w-2xl  mt-6 text-lg leading-8 ">
             Toshkent shahri bo’ylab “chiqindi quti”lari o’rnatilishi kerak
             bo’lgan ko’chalarni aniqlash va ular haqida hukumat yoki atrof-muhit
             tozaligi bilan shug’ullanuvchi tashkilotlarga ma’lumot berish
