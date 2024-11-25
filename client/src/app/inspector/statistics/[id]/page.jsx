@@ -82,7 +82,7 @@ function Page(props) {
     }, [url])
     return (
         <div className={`grid pt-20  items-center justify-center mx-auto`}>
-            <img src={data.image} className={`mx-auto`} alt={`rasm`} width={800} height={800}/>
+            <img src={data.image} className={`mx-auto rounded-md`} alt={`rasm`} width={800} height={800}/>
             <Table className="border-collapse border border-slate-400 mt-5 w-[800px]">
                 <TableHeader>
                     {/*<TableRow>*/}
@@ -118,7 +118,7 @@ function Page(props) {
             {
                 data.isDone && <>
                         <h1 className={`font-bold text-3xl my-3`}>Rasm joylangan</h1>
-                        <img src={data.proofImage} className={`mx-auto`} alt="joylanganrasm" width={800} height={800}/>
+                        <img src={data.proofImage} className={`mx-auto rounded-md`} alt="joylanganrasm" width={800} height={800}/>
                     </>
             }
             {   !data.isDone && !data.areTenDaysPassed &&

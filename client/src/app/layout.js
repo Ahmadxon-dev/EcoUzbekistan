@@ -6,7 +6,7 @@ import {Toaster} from "@/components/ui/toaster";
 import {Provider, useDispatch} from "react-redux";
 import store from "@/app/store/store";
 import {useEffect} from "react";
-import {setArray} from "@/app/store/userSlice";
+import {loadFromStorage, setArray} from "@/app/store/userSlice";
 import Head from "next/head";
 
 
@@ -31,9 +31,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
     <head>
-        <title>EcoUzbekistan</title>
-        {/*<meta name="description" content="Description here" />*/}
-
+      <title>EcoUzbekistan</title>
+      <link rel="icon" href="./logo.png"  sizes="64x64" />
+      <meta name="favicon" content="none" />
     </head>
       <body
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}

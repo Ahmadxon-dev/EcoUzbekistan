@@ -12,30 +12,31 @@ export default function Home() {
 
       <div className="mx-auto max-w-7xl  px-10 lg:px-8">
         <div className="mx-auto lg:mx-0">
-          <h2 className=" max-w-6xl text-4xl font-bold tracking-tight pt-10 sm:text-6xl">
+          <h2 className=" text-center max-w-6xl text-5xl font-bold  pt-10 sm:text-6xl">
+            {/*class:tracking-tight */}
             Yosh ekologlar jamoat nazorati
           </h2>
-          <p className=" max-w-2xl  mt-6 text-lg leading-8 ">
-            Toshkent shahri bo’ylab “chiqindi quti”lari o’rnatilishi kerak
-            bo’lgan ko’chalarni aniqlash va ular haqida hukumat yoki atrof-muhit
-            tozaligi bilan shug’ullanuvchi tashkilotlarga ma’lumot berish
-          </p>
+          {/*<p className=" max-w-2xl  mt-6 text-lg leading-8 ">*/}
+          {/*  Toshkent shahri bo’ylab “chiqindi quti”lari o’rnatilishi kerak*/}
+          {/*  bo’lgan ko’chalarni aniqlash va ular haqida hukumat yoki atrof-muhit*/}
+          {/*  tozaligi bilan shug’ullanuvchi tashkilotlarga ma’lumot berish*/}
+          {/*</p>*/}
         </div>
-        <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
+        {/*<div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">*/}
 
-          <dl className="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
-            {stats.map((stat) => (
-                <div key={stat.name} className="flex flex-col-reverse">
-                  <dt className="text-base leading-7">
-                    {stat.name}
-                  </dt>
-                  <dd className="text-2xl font-bold leading-9 tracking-tight ">
-                    {stat.value}
-                  </dd>
-                </div>
-            ))}
-          </dl>
-        </div>
+        {/*  <dl className="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">*/}
+        {/*    {stats.map((stat) => (*/}
+        {/*        <div key={stat.name} className="flex flex-col-reverse">*/}
+        {/*          <dt className="text-base leading-7">*/}
+        {/*            {stat.name}*/}
+        {/*          </dt>*/}
+        {/*          <dd className="text-2xl font-bold leading-9 tracking-tight ">*/}
+        {/*            {stat.value}*/}
+        {/*          </dd>*/}
+        {/*        </div>*/}
+        {/*    ))}*/}
+        {/*  </dl>*/}
+        {/*</div>*/}
       </div>
     </div>
   );

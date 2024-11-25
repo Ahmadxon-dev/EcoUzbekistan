@@ -51,19 +51,4 @@ router.post("/updatestatistics/:id", async (req, res) => {
     return res.status(200).json({msg:"Rasm qo'shildi", post:updatedPost});
 })
 
-cron.schedule('0 0 * * *', async () => {
-    // console.log('Running daily check for 10-day old documents');
-    const tenDaysAgo = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000);
-    // console.log(tenDaysAgo)
-    try {
-
-        const result = await Post.updateMany(
-            { createdAt: { $lte: tenDaysAgo }, areTenDaysPassed: false },
-            { $set: { areTenDaysPassed: true } }
-        );
-
-    } catch (err) {
-        console.error('Error updating documents:', err);
-    }
-});
 module.exports = router

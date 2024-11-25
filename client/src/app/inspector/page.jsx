@@ -14,69 +14,77 @@ import {Button} from "@/components/ui/button";
 import {toast} from "@/hooks/use-toast";
 import {useRouter} from "next/navigation";
 import {useDispatch, useSelector} from "react-redux";
-import {setArray} from "@/app/store/userSlice";
+import {setArray, setRole, setUser} from "@/app/store/userSlice";
 function Page(props) {
     const [logEmail, setLogEmail] = useState("")
     const [logPassword, setLogPassword] = useState("")
     const dispatch = useDispatch()
-    const userData = useSelector(state=> state.user.userData)
+    const state = useSelector(state=> state.user)
     const router = useRouter()
     // console.log(process.env.NEXT_PUBLIC_SERVER)
-    const handleSubmit = ()=>{
-        // console.log("ishladi")
-        if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(logEmail)){
-            toast({
-                variant: "destructive",
-                title:"Email xato"
+        const handleSubmit = ()=>{
+            // console.log("ishladi")
+            if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(logEmail)){
+                toast({
+                    variant: "destructive",
+                    title:"Email xato"
+                })
+                return
+            }
+            if (!logPassword){
+                toast({
+                    variant: "destructive",
+                    title:"Parolni kiriting"
+                })
+                return
+            }
+
+            fetch(`${process.env.NEXT_PUBLIC_SERVER}/inspector/signin`, {
+                method:"post",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    email: logEmail,
+                    password: logPassword
+                })
             })
-            return
+                .then(res=>res.json())
+                .then(data=>{
+                    if (data.error){
+                        toast({
+                            variant:"destructive",
+                            title: data.error
+                        })
+                    }
+                    else{
+                        localStorage.setItem("jwt", data.token)
+                        localStorage.setItem("inspector", JSON.stringify(data.userInspector))
+                        // localStorage.setItem("role", "inspector")
+                        toast({
+                            title: data.msg,
+                            variant:"success",
+                        })
+                        if (data.userInspector.role==="inspector"){
+                            router.push("/inspector/statistics")
+                        }
+                        if (data.userInspector.role==="admin"){
+                            router.push("/admin/statistics")
+                        }
+                        setLogEmail("")
+                        setLogPassword("")
+                        dispatch(setArray(data.userInspector))
+                        // dispatch(setRole("inspector"))
+
+
+
+                    }
+                })
+
         }
-        if (!logPassword){
-            toast({
-                variant: "destructive",
-                title:"Parolni kiriting"
-            })
-            return
-        }
-
-        fetch(`${process.env.NEXT_PUBLIC_SERVER}/inspector/signin`, {
-            method:"post",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                email: logEmail,
-                password: logPassword
-            })
-        })
-            .then(res=>res.json())
-            .then(data=>{
-                if (data.error){
-                    toast({
-                        variant:"destructive",
-                        title: data.error
-                    })
-                }
-                else{
-                    localStorage.setItem("jwt", data.token)
-                    localStorage.setItem("inspector", JSON.stringify(data.userInspector))
-                    // dispatch({type:"USER", payload:data.user})
-                    toast({
-                        title: data.msg,
-                        variant:"success",
-                    })
-                    router.push("/inspector/statistics")
-                    setLogEmail("")
-                    setLogPassword("")
-                    dispatch(setArray(data.userInspector))
-
-
-                }
-            })
-
-    }
     return (
         <>
+            <h1 className={`text-3xl mx-auto xl:min-w-[500px] lg:min-w-[500px] max-w-sm`}>Inspektor/Admin</h1>
             <Card className="mx-auto xl:min-w-[500px] lg:min-w-[500px] max-w-sm shadow-2xl">
                 <CardHeader>
                     <CardTitle className="text-2xl">Login</CardTitle>

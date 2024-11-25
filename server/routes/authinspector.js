@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 const login = require("../middleware/login")
 
 router.post("/signup", (req, res) => {
-    const {email, password, region} = req.body
+    const {email, password, region, role} = req.body
     if (!email || !password || !region) {
         return res.status(400).json({error: "Hamma maydonlarni to'ldiring"})
     }
@@ -20,7 +20,8 @@ router.post("/signup", (req, res) => {
                     const inspector = new Inspector({
                         email,
                         password: hashedPass,
-                        region
+                        region,
+                        role,
                     })
                     return inspector.save()
 
@@ -52,11 +53,11 @@ router.post("/signin", (req,res)=>{
                 .then(doMatch=>{
                     if (doMatch){
                         const token = jwt.sign({_id: savedUser._id}, process.env.JWT_SECRET)
-                        const {email, region} = savedUser
+                        const {email, region, role} = savedUser
                         return res.json({
                             msg:"Muvaffaqiyatli kirildi",
                             token: token,
-                            userInspector: {email, region}
+                            userInspector: {email, region, role}
                         })
                     }else{
                         return res.status(400).json({error: "Parolingiz xato"})
