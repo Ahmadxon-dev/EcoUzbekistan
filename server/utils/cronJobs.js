@@ -4,7 +4,7 @@ const cron = require("node-cron");
 // */5 * * * * *
 
 function deadlineLogic(){
-    cron.schedule('0 0 * * *', async () => {
+    cron.schedule('*/5 * * * * *', async () => {
         const tenDaysAgo = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000);
 
         try {
