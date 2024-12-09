@@ -1,15 +1,69 @@
 "use client"
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/navigation";
-import {Loader2} from "lucide-react";
+import {Check, Loader2} from "lucide-react";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Button} from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription, DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/dialog";
+import {Label} from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
+import {useToast} from "@/hooks/use-toast";
 
 function Page(props) {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [notification, setNotification] = useState("")
     const router = useRouter()
+    const { toast } = useToast()
+    const approvePost = async (id)=>{
+        await fetch(`${process.env.NEXT_PUBLIC_SERVER}/admin/approve`, {
+            method:"post",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({
+                id:id
+            })
+        })
+            .then(res=>res.json())
+            .then(data=>{
+                setData(data)
+                toast({
+                    title: data.msg,
+                    variant: "success",
+                })
+            })
+    }
+    const sendNotification = async (message, region, postId ) => {
+        await fetch(`${process.env.NEXT_PUBLIC_SERVER}/admin/send-message`, {
+            method:"post",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({
+                message,
+                region,
+                postId
+            })
+        })
+            .then(res=>res.json())
+            .then(data=> {
+                setNotification("")
+                setData(data)
+                toast({
+                    title:data.msg,
+                    variant: "success",
+                })
+            })
+    }
     useEffect(() => {
 
         async function fetchPosts() {
@@ -47,10 +101,10 @@ function Page(props) {
     return (
         <>
             {
-                data.posts.length>0
+                data
                     ?
                     <>
-                        <Table className={`w-2/3 mx-auto space-y-6 p-6 border-gray-200 border-2 `}>
+                        <Table className={`w-2/3 mx-auto space-y-6 p-6 border-gray-200 border-2 z-0 `}>
                             <TableHeader >
                                 <TableRow >
                                     <TableHead className="w-[100px]">Viloyat</TableHead>
@@ -60,25 +114,62 @@ function Page(props) {
                                     <TableHead>Tasdiqlanganmi</TableHead>
                                     <TableHead>Qo'shilgan sanasi</TableHead>
                                     <TableHead>Qolgan vaqt</TableHead>
-                                    <TableHead>Amallar</TableHead>
+                                    <TableHead className={`flex mx-auto items-center justify-center`}>Amallar</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody >
 
                                 {
                                     data.posts.map(post=>{
-                                        return <TableRow onClick={()=> router.push(`statistics/${post._id}`)} key={post._id} className={post.isDone?"bg-green-300 hover:bg-green-200 hover:cursor-pointer":(post.areTenDaysPassed?"bg-red-400 hover:bg-red-300":"")+  " rounded-md shadow  hover:cursor-pointer"}>
-                                            <TableCell className="font-medium">{post.region}</TableCell>
-                                            <TableCell>{post.fish}</TableCell>
-                                            <TableCell className="text-left">{post.crimeType}</TableCell>
-                                            <TableCell className={`font-bold`}>{post.isDone?"Bajarilgan":(post.areTenDaysPassed?"Bajarilmagan":"Jarayonda")}</TableCell>
-                                            <TableCell className={`font-bold`}>{post.isApproved?"Tasdiqlandi":"Tasdiqlanmadi"}</TableCell>
-                                            <TableCell>{post.createdAt?`${post.createdAt.toString().slice(0,10)}`:`sana yoq(hozircha)`}</TableCell>
-                                            <TableCell className={``}>{post.isDone?"Vaqtida Bajarilgan":(post.createdAt && (0>(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))?"Vaqt qolmadi":(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))))}</TableCell>
-                                            <TableCell>{!post.isApproved && <Button>Tasdiqlash</Button>}</TableCell>
+                                        return <TableRow key={post._id} className={post.isDone?"bg-green-300 hover:bg-green-200 hover:cursor-pointer":(post.areTenDaysPassed?"bg-red-400 hover:bg-red-300":"")+  " rounded-md shadow  hover:cursor-pointer"}>
+                                            <TableCell onClick={()=>{
+                                                router.push(`statistics/${post._id}`)
+                                            }} className="font-medium">{post.region}</TableCell>
+                                            <TableCell onClick={()=>{
+                                                router.push(`statistics/${post._id}`)
+                                            }}>{post.fish}</TableCell>
+                                            <TableCell onClick={()=>{
+                                                router.push(`statistics/${post._id}`)
+                                            }} className="text-left">{post.crimeType}</TableCell>
+                                            <TableCell onClick={()=>{
+                                                router.push(`statistics/${post._id}`)
+                                            }} className={`font-bold`}>{post.isDone?"Bajarilgan":(post.areTenDaysPassed?"Bajarilmagan":"Jarayonda")}</TableCell>
+                                            <TableCell onClick={()=>{
+                                                router.push(`statistics/${post._id}`)
+                                            }} className={`font-bold`}>{post.isApproved?`Tasdiqlangan`:"Tasdiqlanmadi"}</TableCell>
+                                            <TableCell onClick={()=>{
+                                                router.push(`statistics/${post._id}`)
+                                            }}>{post.createdAt?`${post.createdAt.toString().slice(0,10)}`:`sana yoq(hozircha)`}</TableCell>
+                                            <TableCell onClick={()=>{
+                                                router.push(`statistics/${post._id}`)
+                                            }} className={``}>{post.isDone?"Vaqtida Bajarilgan":(post.createdAt && (0>(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))?"Vaqt qolmadi":(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))))}</TableCell>
+                                            <TableCell className={`flex mx-auto justify-center font-bold`}>{post.isDone && !post.isApproved && <Button onClick={()=>approvePost(post._id)}>Tasdiqlash</Button>} {post.isApproved && <Check/>} {post.isnotified && "Ogohlantirilgan"} { !post.isDone && post.areTenDaysPassed && !post.isnotified &&<Dialog className={`relative z-50`}>
+                                                <DialogTrigger asChild>
+                                                    <Button  className={`relative z-50`}>Ogohlantirish</Button>
+                                                </DialogTrigger>
+                                                <DialogContent className="sm:max-w-[425px]">
+                                                    <DialogHeader>
+                                                        <DialogTitle>Ogohlantirish Yuborish</DialogTitle>
+                                                    </DialogHeader>
+                                                    <div className="grid gap-4 py-4">
+                                                        <div className="grid grid-cols-4 items-center gap-4">
+                                                            {/*<Label htmlFor="username" className="text-right">*/}
+                                                            {/*    Ogohlantirish*/}
+                                                            {/*</Label>*/}
+                                                            <Input
+                                                                className="col-span-6"
+                                                                value={notification}
+                                                                onChange={e=>setNotification(e.target.value)}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <DialogFooter>
+                                                        <Button onClick={()=>sendNotification(notification, post.region, post._id)} type="submit">Yubormoq</Button>
+                                                    </DialogFooter>
+                                                </DialogContent>
+                                            </Dialog> }</TableCell>
                                         </TableRow>
                                     })
-
                                 }
                             </TableBody>
 

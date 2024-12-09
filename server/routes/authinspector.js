@@ -4,7 +4,7 @@ const Inspector = require("../models/Inspector")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const login = require("../middleware/login")
-
+// /inspector/....
 router.post("/signup", (req, res) => {
     const {email, password, region, role} = req.body
     if (!email || !password || !region) {
@@ -53,11 +53,11 @@ router.post("/signin", (req,res)=>{
                 .then(doMatch=>{
                     if (doMatch){
                         const token = jwt.sign({_id: savedUser._id}, process.env.JWT_SECRET)
-                        const {email, region, role} = savedUser
+                        const {email, region, role, notifications} = savedUser
                         return res.json({
                             msg:"Muvaffaqiyatli kirildi",
                             token: token,
-                            userInspector: {email, region, role}
+                            userInspector: {email, region, role, notifications}
                         })
                     }else{
                         return res.status(400).json({error: "Parolingiz xato"})
@@ -73,4 +73,18 @@ router.post("/signin", (req,res)=>{
             return res.status(500).json({error: "Internal Server Error"})
         })
 })
+
+router.post("/getuser", async (req,res)=>{
+    const {token} = req.body
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    await  Inspector.findOne({_id: decoded._id})
+        .then(user=>{
+            const {email, region, role, notifications} = user
+            res.status(200).json({email, region, role, notifications})
+        })
+
+
+})
+
+
 module.exports = router

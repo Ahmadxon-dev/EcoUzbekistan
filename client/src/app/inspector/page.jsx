@@ -58,9 +58,7 @@ function Page(props) {
                         })
                     }
                     else{
-                        localStorage.setItem("jwt", data.token)
-                        localStorage.setItem("inspector", JSON.stringify(data.userInspector))
-                        // localStorage.setItem("role", "inspector")
+                        localStorage.setItem("token", data.token)
                         toast({
                             title: data.msg,
                             variant:"success",
@@ -74,7 +72,6 @@ function Page(props) {
                         setLogEmail("")
                         setLogPassword("")
                         dispatch(setArray(data.userInspector))
-                        // dispatch(setRole("inspector"))
 
 
 

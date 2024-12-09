@@ -8,9 +8,23 @@ import {clear, setArray} from "@/app/store/userSlice";
 function Navbar(props) {
     const userData = useSelector(state=>state.user.userData)
     const dispatch = useDispatch()
+    const getUser = async ()=>{
+        const jwt = localStorage.getItem("token")
+        if (jwt)
+            await fetch(`${process.env.NEXT_PUBLIC_SERVER}/inspector/getuser`, {
+                method:"post",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    token: jwt
+                })
+            })
+                .then(res=>res.json())
+                .then(data=>dispatch(setArray(data)))
+    }
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem("inspector")) || {};
-        dispatch(setArray(data));
+        getUser()
     }, []);
 
 
@@ -35,6 +49,13 @@ function Navbar(props) {
                                         className="text-white transition-colors hover:text-green-700"
                                     >
                                         Statistika
+                                    </Link>
+                                    <Link
+                                        href="/inspector/notifications"
+
+                                        className="text-white transition-colors hover:text-green-700"
+                                    >
+                                        Ogohlantirishlar
                                     </Link>
                                     <Link
                                         href="/inspector"

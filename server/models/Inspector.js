@@ -24,7 +24,13 @@ const inspectorAuthSchema = new Schema({
         default:"inspector",
         required: true
 
-    }
+    },
+    notifications: [
+        {
+            message: {type:String},
+            time : { type : Date, default: Date.now }
+        }
+    ]
 },  {timestamps:true}
 )
 

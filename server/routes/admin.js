@@ -1,7 +1,8 @@
 const {Router} = require('express')
 const router = Router()
 const Inspector = require("../models/Inspector")
-
+const Post = require("../models/Post")
+// /admin/...
 router.get("/inspectorslist",  async (req,res)=>{
     const data = await Inspector.find()
     const filteredData = data.filter(inspector => inspector.role==="inspector")
@@ -40,4 +41,30 @@ router.post("/inspectorslist/edit/:id", async (req,res)=>{
     }
 })
 
+router.post("/approve", async (req,res)=>{
+    const {id} = req.body
+    await Post.findByIdAndUpdate(
+        {_id:id},
+        {$set: {isApproved: true}},
+        {new: true}
+    )
+    const posts = await Post.find()
+    return res.json({msg:"Tasdiqlandi", posts})
+})
+
+router.post("/send-message", async (req,res)=>{
+    const {message, region, postId} = req.body
+    await Inspector.findOneAndUpdate(
+        {region:region},
+        { $push: { notifications : { message: message}} },
+        { new:true },
+    )
+    await Post.findByIdAndUpdate(
+        postId,
+        { $set : {isnotified : true}},
+        { new : true}
+    )
+    const posts = await Post.find()
+    return res.status(200).json({msg: "Ogohlantirish muvaffaqiyatli yuborildi", posts})
+})
 module.exports = router

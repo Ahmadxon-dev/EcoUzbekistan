@@ -40,6 +40,10 @@ const postSchema = new Schema({
     areTenDaysPassed: {
         type: Boolean,
         default: false
+    },
+    isnotified:{
+        type:Boolean,
+        default: false
     }
 },
     {timestamps:true}

@@ -5,15 +5,11 @@ const userSlice = createSlice({
     name: 'user',
     initialState: {
         userData: [],
-        // role:"user"
     },
     reducers: {
         setArray: (state, action) => {
             state.userData = action.payload;
         },
-        // setRole:(state, action) => {
-        //     state.role = action.payload;
-        // },
         clear: (state)=>{
             state.userData=[];
         },
