@@ -15,15 +15,16 @@ import {toast} from "@/hooks/use-toast";
 import {useRouter} from "next/navigation";
 import {useDispatch, useSelector} from "react-redux";
 import {setArray, setRole, setUser} from "@/app/store/userSlice";
+import {Loader2} from "lucide-react";
 function Page(props) {
     const [logEmail, setLogEmail] = useState("")
     const [logPassword, setLogPassword] = useState("")
     const dispatch = useDispatch()
+    const [loading, setLoading] = useState(false)
     const state = useSelector(state=> state.user)
     const router = useRouter()
-    // console.log(process.env.NEXT_PUBLIC_SERVER)
         const handleSubmit = ()=>{
-            // console.log("ishladi")
+            setLoading(true)
             if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(logEmail)){
                 toast({
                     variant: "destructive",
@@ -71,6 +72,7 @@ function Page(props) {
                         }
                         setLogEmail("")
                         setLogPassword("")
+                        setLoading(false)
                         dispatch(setArray(data.userInspector))
 
 
@@ -81,11 +83,11 @@ function Page(props) {
         }
     return (
         <>
-            <h1 className={`text-3xl mx-auto xl:min-w-[500px] lg:min-w-[500px] max-w-sm`}>Inspektor/Admin</h1>
+            {/*<h1 className={`text-3xl mx-auto xl:min-w-[500px] lg:min-w-[500px] max-w-sm`}>Inspektor/Admin</h1>*/}
             <Card className="mx-auto xl:min-w-[500px] lg:min-w-[500px] max-w-sm shadow-2xl">
                 <CardHeader>
-                    <CardTitle className="text-2xl">Login</CardTitle>
-                    <CardDescription>Enter your email below to login to your account.</CardDescription>
+                    <CardTitle className="text-2xl">Inspektor/Admin</CardTitle>
+                    {/*<CardDescription>Enter your email below to login to your account.</CardDescription>*/}
                 </CardHeader>
                 <CardContent className="grid gap-4">
                     <div className="grid gap-2">
@@ -99,7 +101,10 @@ function Page(props) {
 
                 </CardContent>
                 <CardFooter>
-                    <Button onClick={handleSubmit} className="w-full">Sign in</Button>
+                    <Button onClick={handleSubmit} className="w-full">
+                        Kirish
+                        {loading?<Loader2 className="ml-2 h-4 w-4 animate-spin" />:""}
+                    </Button>
                 </CardFooter>
                 <CardContent>
 

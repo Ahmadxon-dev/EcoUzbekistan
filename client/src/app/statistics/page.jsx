@@ -86,6 +86,7 @@ function Page(props) {
                        <TableCell className={`font-bold`}>{post.isApproved?"Tasdiqlandi":"Tasdiqlanmadi"}</TableCell>
                        <TableCell>{post.createdAt?`${post.createdAt.toString().slice(0,10)}`:`sana yoq(hozircha)`}</TableCell>
                        <TableCell className={``}>{post.isDone?"Vaqtida Bajarilgan":(post.createdAt && (0>(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))?"Vaqt qolmadi":(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))))}</TableCell>
+
                     </TableRow>
                 })
 

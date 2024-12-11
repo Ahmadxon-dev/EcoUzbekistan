@@ -29,23 +29,22 @@ function Page(props) {
                 const fetchedData = await res.json();
                 const filtered = fetchedData.posts.filter(post => post.region.toLowerCase() === userData.region.toLowerCase());
                 setData(filtered)
+                setLoading(false);
                 // setData(fetchedData.posts.filter(post=> post.region ==="Andijon"));
             } catch (err) {
                 console.error("Error fetching data:", err);
                 setError(err.message);
-            } finally {
-                setLoading(false);
             }
         }
         fetchPosts();
     }, [userData]);
 
-    if (!data) return <div className={`grid  items-center justify-center m-auto`}>
-        <h1>Ma'lumot yo'q</h1>
-    </div>
 
     if (loading) return <div className={`grid  items-center justify-center m-auto`}>
         <Loader2 className="mr-2 h-20 w-20 animate-spin" />
+    </div>
+    if (!data) return <div className={`grid  items-center justify-center m-auto`}>
+        <h1>Ma'lumot yo'q</h1>
     </div>
     return (
         <>
@@ -57,6 +56,7 @@ function Page(props) {
                     <Table className={`w-2/3 mx-auto space-y-6 p-6 border-gray-200 border-2 `}>
                         <TableHeader>
                             <TableRow>
+                                <TableHead>Id</TableHead>
                                 <TableHead className="w-[100px]">Viloyat</TableHead>
                                 <TableHead>F.I.SH</TableHead>
                                 <TableHead>Tel. raqami</TableHead>
@@ -75,6 +75,7 @@ function Page(props) {
                                         return <TableRow onClick={()=>router.push(`statistics/${post._id}`)}
                                                          key={post._id}
                                                          className={post.isDone?"bg-green-300 hover:bg-green-200 hover:cursor-pointer":(post.areTenDaysPassed?"bg-red-400 hover:bg-red-300":"")+  "  hover:cursor-pointer"} >
+                                            <TableCell>{post._id}</TableCell>
                                             <TableCell className="font-medium">{post.region}</TableCell>
                                             <TableCell>{post.fish}</TableCell>
                                             <TableCell>{post.contact}</TableCell>

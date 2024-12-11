@@ -15,6 +15,7 @@ function Page(props) {
     const params = useParams()
     const {id} = params
     const [loading, setLoading] = useState(false)
+    const [pageLoading, setPageLoading] = useState(true)
     const {toast} = useToast()
     const [data, setData] = useState({})
     const [image, setImage] = useState("")
@@ -23,7 +24,10 @@ function Page(props) {
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_SERVER}/getstatistics/${id}`)
             .then(res => res.json())
-            .then(data => setData(data.post))
+            .then(data => {
+                setPageLoading(false)
+                setData(data.post)
+            })
     }, [])
 
     const postImage = () => {
@@ -80,6 +84,13 @@ function Page(props) {
                 .catch(err => console.log(err))
         }
     }, [url])
+    if (pageLoading) return <div className={`grid  items-center justify-center m-auto`}>
+        <Loader2 className="mr-2 h-20 w-20 animate-spin" />
+    </div>
+
+    if (!data) return <div className={`grid  items-center justify-center m-auto`}>
+        <h1>Ma'lumot yo'q</h1>
+    </div>
     return (
         <div className={`grid pt-20  items-center justify-center mx-auto`}>
             <img src={data.image} className={`mx-auto rounded-md`} alt={`rasm`} width={800} height={800}/>

@@ -80,11 +80,10 @@ function Page(props) {
 
                 const fetchedData = await res.json();
                 setData(fetchedData);
+                setLoading(false);
             } catch (err) {
                 console.error("Error fetching data:", err);
                 setError(err.message);
-            } finally {
-                setLoading(false);
             }
         }
 

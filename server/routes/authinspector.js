@@ -86,5 +86,11 @@ router.post("/getuser", async (req,res)=>{
 
 })
 
-
+router.get("/notified-statistics/:region", async (req,res)=>{
+    const {region} = req.params
+    await Inspector.findOne({region}).populate("notifications.postData")
+        .then(data=>{
+            res.status(200).json({data})
+        })
+})
 module.exports = router

@@ -1,4 +1,5 @@
 const {Schema, model} = require('mongoose')
+const mongoose = require("mongoose");
 //for both inspectors and admins
 const inspectorAuthSchema = new Schema({
     email:{
@@ -28,7 +29,11 @@ const inspectorAuthSchema = new Schema({
     notifications: [
         {
             message: {type:String},
-            time : { type : Date, default: Date.now }
+            time : { type : Date, default: Date.now },
+            postData:{
+                type:mongoose.Schema.Types.ObjectId,
+                ref:"Post"
+            }
         }
     ]
 },  {timestamps:true}

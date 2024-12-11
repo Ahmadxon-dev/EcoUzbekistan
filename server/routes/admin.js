@@ -56,7 +56,7 @@ router.post("/send-message", async (req,res)=>{
     const {message, region, postId} = req.body
     await Inspector.findOneAndUpdate(
         {region:region},
-        { $push: { notifications : { message: message}} },
+        { $push: { notifications : { message: message,postData:postId}} },
         { new:true },
     )
     await Post.findByIdAndUpdate(
