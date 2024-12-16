@@ -48,13 +48,12 @@ function Page(props) {
         <>
 
             {
-                data
+                data.length>0
                     ?
                         <>
-                            <Table className={`w-2/3 mx-auto space-y-6 p-6 border-gray-200 border-2`}>
+                            <Table className={`w-2/3 mx-auto justify-center items-center space-y-6 p-6 border-gray-200 border-2`}>
                                <TableHeader >
                                 <TableRow >
-                                    <TableHead className="">Id</TableHead>
                                     <TableHead>Ogohlantirish</TableHead>
                                     <TableHead>Bajarilganmi</TableHead>
                                     <TableHead>Ogohlantirilgan sanasi</TableHead>
@@ -64,7 +63,6 @@ function Page(props) {
                             {
                                 data.map(post=>{
                                     return <TableRow key={post._id} onClick={()=>router.push(`/inspector/statistics/${post.postData._id}`)} className={`bg-red-400 hover:bg-red-300 rounded-md shadow hover:cursor-pointer `}>
-                                        <TableCell>{post._id}</TableCell>
                                         <TableCell className={`font-bold w-1/4`}>{post.message}</TableCell>
                                         <TableCell>{!post.postData.isDone && "Bajarilmagan"}</TableCell>
                                         <TableCell>{post.time.toString().slice(0,10)}</TableCell>

@@ -76,12 +76,12 @@ function Navbar(props) {
                                     >
                                         Statistika
                                     </Link>
-                                    <Link
-                                        href="/add"
-                                        className="text-white transition-colors hover:text-green-700"
-                                    >
-                                        Qo'shish
-                                    </Link>
+                                    {/*<Link*/}
+                                    {/*    href="/add"*/}
+                                    {/*    className="text-white transition-colors hover:text-green-700"*/}
+                                    {/*>*/}
+                                    {/*    Qo'shish*/}
+                                    {/*</Link>*/}
                                     <Link
                                         href="/inspector"
                                         className="text-white transition-colors hover:text-green-700"
