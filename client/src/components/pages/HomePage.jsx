@@ -1,5 +1,6 @@
 import {useSelector} from "react-redux";
 import FeaturesImage from "../../assets/img_2.png"
+import { motion } from "framer-motion";
 import {
     Card,
     CardContent,
@@ -20,6 +21,7 @@ import Footer from "@/components/Footer";
 import React from 'react';
 import NewsSection from "@/components/NewsSection.jsx";
 import {Loader2} from "lucide-react";
+import CrimeReports from "@/components/CrimeReposts.jsx";
 
 function HomePage(props) {
     const userData = useSelector(state => state.user.userData)
@@ -27,7 +29,7 @@ function HomePage(props) {
     const [loading, setLoading] = useState(true)
     useEffect(() => {
         async function fetchPosts() {
-            const res = await fetch(`${import.meta.env.VITE_SERVER}/getstatistics`);
+            const res = await fetch(`${import.meta.env.VITE_SERVER}/getstatistics/`);
 
             if (!res.ok) {
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -109,25 +111,40 @@ function HomePage(props) {
     }
     return (
         <>
-            <Carousel/>
-            <div className="container h-fit  lg:h-screen sm:h-fit mx-auto flex items-center mt-20 px-4 py-8">
-                <div className="grid lg:grid-cols-2 gap-8 items-center  my-auto">
+
+            <Carousel />
+            <div className="container h-fit lg:h-screen sm:h-fit mx-auto flex items-center mt-20 px-4 py-8">
+                <motion.div
+                    className="grid lg:grid-cols-2 gap-8 items-center my-auto"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false }}
+                    transition={{ duration: 0.6 }}
+                >
                     {/* Left side - Image */}
-                    <div className=" w-full my-auto ">
+                    <motion.div
+                        className="w-full my-auto"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: false }}
+                        transition={{ duration: 0.5 }}
+                    >
                         <img
                             src={FeaturesImage}
                             alt="Students learning in classroom"
                             className="object-cover rounded-lg"
                         />
-
-                    </div>
+                    </motion.div>
 
                     {/* Right side - Content */}
-                    <div className="space-y-6">
-                        <div>
-                            <h1 className="text-4xl font-bold text-navy-900 mb-4">Loyihaning maqsadi</h1>
-
-                        </div>
+                    <motion.div
+                        className="space-y-6"
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: false }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <h1 className="text-4xl font-bold text-navy-900 mb-4">Loyihaning maqsadi</h1>
 
                         <div className="space-y-6 text-lg">
                             <p>
@@ -153,59 +170,65 @@ function HomePage(props) {
 
                             </p>
                         </div>
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
             </div>
-            <div className={`h-[75vh] w-full flex justify-center`}>
-                {
-                    loading ?
-                        <div className={`grid  items-center justify-center m-auto`}>
-                            <Loader2 className="mr-2 h-20 w-20 animate-spin"/>
-                        </div>
-                        :
-                        <Card className={`w-[80vw] h-fit mx-auto mt-20`}>
-                            <CardHeader className={`w-full mx-auto text-center`}>
+
+            <CrimeReports />
+
+            <motion.div
+                className="h-[75vh] w-full flex justify-center"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false }}
+                transition={{ duration: 0.7 }}
+            >
+                {loading ? (
+                    <motion.div
+                        className="grid items-center justify-center m-auto"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: false }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <Loader2 className="mr-2 h-20 w-20 animate-spin"/>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: false }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <Card className="w-[80vw] h-fit mx-auto mt-20">
+                            <CardHeader className="w-full mx-auto text-center">
                                 <CardTitle>Viloyatlar kesimida qayd etilgan ekoligik muammolar ko'rsatgichi</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <ChartContainer config={chartConfig} className={`w-[100%] h-[300px] mx-auto`}>
-                                    <BarChart
-                                        accessibilityLayer
-                                        data={chartData}
-                                        layout="vertical"
-                                        margin={{
-                                            left: 50,
-                                        }}
-
-                                    >
+                                <ChartContainer config={chartConfig} className="w-[100%] h-[300px] mx-auto">
+                                    <BarChart accessibilityLayer data={chartData} layout="vertical" margin={{ left: 50 }}>
                                         <YAxis
                                             dataKey="region"
                                             type="category"
                                             tickLine={false}
                                             tickMargin={5}
                                             axisLine={false}
-                                            tickFormatter={(value) =>
-                                                chartConfig[value]?.label
-                                            }
-                                            tick={{fontSize: 12}}
-
+                                            tickFormatter={(value) => chartConfig[value]?.label}
+                                            tick={{ fontSize: 12 }}
                                         />
-                                        <XAxis dataKey="applications" type="number" hide/>
-                                        <ChartTooltip
-                                            cursor={false}
-                                            content={<ChartTooltipContent/>}
-                                        />
-                                        <Bar dataKey="applications" layout="vertical" radius={5}/>
+                                        <XAxis dataKey="applications" type="number" hide />
+                                        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                                        <Bar dataKey="applications" layout="vertical" radius={5} />
                                     </BarChart>
                                 </ChartContainer>
                             </CardContent>
                         </Card>
-                }
+                    </motion.div>
+                )}
+            </motion.div>
 
-            </div>
-            {/*<ProjectsGrid />*/}
-            <NewsSection/>
-            <Footer/>
+            <NewsSection />
+            <Footer />
         </>
     );
 }

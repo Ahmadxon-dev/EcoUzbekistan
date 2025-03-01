@@ -11,6 +11,8 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import {Loader2} from "lucide-react";
+import {Badge} from "@/components/ui/badge.jsx";
+import axios from "axios";
 
 function StatisticsPage(props) {
     const [data, setData] = useState(null)
@@ -24,17 +26,8 @@ function StatisticsPage(props) {
 
         async function fetchPosts() {
             try {
-                const res = await fetch(`${import.meta.env.VITE_SERVER}/getstatistics`, {
-                    // cache: 'no-store', // Optionally control caching
-
-                    // cache: 'force-cache'
-                });
-
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
-
-                const fetchedData = await res.json();
+                const {data} = await axios.get(`${import.meta.env.VITE_SERVER}/getstatistics`);
+                const fetchedData = data
                 setData(fetchedData);
             } catch (err) {
                 console.error("Error fetching data:", err);
@@ -62,7 +55,7 @@ function StatisticsPage(props) {
                         <TableHead className="w-[100px]">Viloyat</TableHead>
                         <TableHead>F.I.SH</TableHead>
                         <TableHead className="text-left">QoidaBuzarlik turi</TableHead>
-                        <TableHead>Bajarilganmi</TableHead>
+                        <TableHead className={`text-center`}>Holati</TableHead>
                         <TableHead>Tasdiqlanganmi</TableHead>
                         <TableHead>Qo'shilgan sanasi</TableHead>
                         <TableHead>Qolgan vaqt</TableHead>
@@ -72,14 +65,14 @@ function StatisticsPage(props) {
 
                     {
                         data.posts.map(post=>{
-                            return <TableRow onClick={()=> navigate(`/statistics/${post._id}`)} key={post._id} className={post.isDone?"bg-green-300 hover:bg-green-200 hover:cursor-pointer":(post.areTenDaysPassed?"bg-red-400 hover:bg-red-300":"")+  " rounded-md shadow  hover:cursor-pointer"}>
+                            return <TableRow onClick={()=> navigate(`/statistics/${post._id}`)} key={post._id} className={" rounded-md shadow  hover:cursor-pointer"}>
                                 <TableCell className="font-medium">{post.region}</TableCell>
                                 <TableCell>{post.fish}</TableCell>
                                 <TableCell className="text-left">{post.crimeType}</TableCell>
-                                <TableCell className={`font-bold`}>{post.isDone?"Bajarilgan":(post.areTenDaysPassed?"Bajarilmagan":"Jarayonda")}</TableCell>
+                                <TableCell className={`font-bold text-center`}><Badge variant={post.isDone?"default":(post.areTenDaysPassed?"destructive":"yellow")}>{post.isDone?"Bajarilgan":(post.areTenDaysPassed?"Bajarilmagan":"Jarayonda")} </Badge></TableCell>
                                 <TableCell className={`font-bold`}>{post.isApproved?"Tasdiqlandi":"Tasdiqlanmadi"}</TableCell>
                                 <TableCell>{post.createdAt?`${post.createdAt.toString().slice(0,10)}`:`sana yoq(hozircha)`}</TableCell>
-                                <TableCell className={``}>{post.isDone?"Vaqtida Bajarilgan":(post.createdAt && (0>(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))?"Vaqt qolmadi":(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))))}</TableCell>
+                                <TableCell className={``}>{post.isDone?"Vaqtida Bajarilgan":(post.createdAt && (0>(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))?"Vaqt qolmadi":(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))+" kun"))}</TableCell>
 
                             </TableRow>
                         })
@@ -93,4 +86,4 @@ function StatisticsPage(props) {
     );
 }
 
-export default StatisticsPage;
+export default  StatisticsPage;

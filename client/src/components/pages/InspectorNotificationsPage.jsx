@@ -5,7 +5,7 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/c
 import {useNavigate} from "react-router-dom";
 
 function Page(props) {
-    const [data, setData] = useState(null)
+    const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const userData = useSelector(state => state.user.userData)
     const navigate = useNavigate()
@@ -23,6 +23,7 @@ function Page(props) {
                 }
 
                 const fetchedData = await res.json();
+                console.log(fetchedData.data.notifications)
                 setData(fetchedData.data.notifications)
                 setLoading(false);
             } catch (err) {
@@ -39,7 +40,7 @@ function Page(props) {
     </div>
 
     if (!data) return <div className={`grid  items-center justify-center m-auto`}>
-        <h1>Ogohlantirish yo'q</h1>
+        <h1 className={`text-3xl`}>Ogohlantirish yo'q</h1>
     </div>
 
     return (
@@ -49,11 +50,11 @@ function Page(props) {
                 data.length>0
                     ?
                     <>
-                        <Table className={`w-2/3 mx-auto justify-center items-center space-y-6 p-6 border-gray-200 border-2`}>
+                        <Table className={`w-7/12 mx-auto justify-center items-center space-y-6 p-6 border-gray-200 border-2`}>
                             <TableHeader >
                                 <TableRow >
                                     <TableHead>Ogohlantirish</TableHead>
-                                    <TableHead>Bajarilganmi</TableHead>
+                                    <TableHead>Holati</TableHead>
                                     <TableHead>Ogohlantirilgan sanasi</TableHead>
                                 </TableRow>
                             </TableHeader>

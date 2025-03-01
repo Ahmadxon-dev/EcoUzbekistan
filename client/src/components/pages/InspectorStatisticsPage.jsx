@@ -3,6 +3,7 @@ import {Loader2} from "lucide-react";
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 function InspectorStatisticsPage(props) {
     const [data, setData] = useState(null)
@@ -16,15 +17,8 @@ function InspectorStatisticsPage(props) {
 
         async function fetchPosts() {
             try {
-                const res = await fetch(`${import.meta.env.VITE_SERVER}/getstatistics`, {
-                    cache: 'no-store', // Optionally control caching
-                });
-
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
-
-                const fetchedData = await res.json();
+                const {data} = await axios.get(`${import.meta.env.VITE_SERVER}/getstatistics`);
+                const fetchedData = data
                 const filtered = fetchedData.posts.filter(post => post.region.toLowerCase() === userData.region.toLowerCase());
                 setData(filtered)
                 setLoading(false);
@@ -72,7 +66,7 @@ function InspectorStatisticsPage(props) {
                                         </TableHeader>
                                         <TableBody>
                                             {data.map(post => {
-                                                return <TableRow onClick={() => navigate(`/statistics/${post._id}`)}
+                                                return <TableRow onClick={() => navigate(`/inspector/statistics/${post._id}`)}
                                                                  key={post._id}
                                                                  className={post.isDone ? "bg-green-300 hover:bg-green-200 hover:cursor-pointer" : (post.areTenDaysPassed ? "bg-red-400 hover:bg-red-300" : "") + "  hover:cursor-pointer"}>
                                                     {/*<TableCell>{post._id}</TableCell>*/}
@@ -86,7 +80,7 @@ function InspectorStatisticsPage(props) {
                                                         className={`font-bold`}>{post.isApproved ? "Tasdiqlandi" : "Tasdiqlanmadi"}</TableCell>
                                                     <TableCell>{post.createdAt ? `${post.createdAt.toString().slice(0, 10)}` : `sana yoq(hozircha)`}</TableCell>
                                                     <TableCell
-                                                        className={``}>{post.isDone ? "Vaqtida Bajarilgan" : (post.createdAt && (0 > (10 - Math.floor((new Date() - new Date(post.createdAt)) / (1000 * 60 * 60 * 24))) ? "Vaqt qolmadi" : (10 - Math.floor((new Date() - new Date(post.createdAt)) / (1000 * 60 * 60 * 24)))))}</TableCell>
+                                                        className={``}>{post.isDone ? "Vaqtida Bajarilgan" : (post.createdAt && (0 > (10 - Math.floor((new Date() - new Date(post.createdAt)) / (1000 * 60 * 60 * 24))) ? "Vaqt qolmadi" : (10 - Math.floor((new Date() - new Date(post.createdAt)) / (1000 * 60 * 60 * 24)))+" kun"))}</TableCell>
                                                 </TableRow>
                                             })
 

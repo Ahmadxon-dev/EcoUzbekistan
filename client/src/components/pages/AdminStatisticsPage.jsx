@@ -136,7 +136,7 @@ function Page(props) {
                                             }}>{post.createdAt?`${post.createdAt.toString().slice(0,10)}`:`sana yoq(hozircha)`}</TableCell>
                                             <TableCell onClick={()=>{
                                                 navigate(`/statistics/${post._id}`)
-                                            }} className={``}>{post.isDone?"Vaqtida Bajarilgan":(post.createdAt && (0>(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))?"Vaqt qolmadi":(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))))}</TableCell>
+                                            }} className={``}>{post.isDone?"Vaqtida Bajarilgan":(post.createdAt && (0>(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))?"Vaqt qolmadi":(10 - Math.floor((new Date() - new Date(post.createdAt) )/ (1000*60*60*24)))+" kun"))}</TableCell>
                                             <TableCell className={`flex mx-auto justify-center font-bold`}>{post.isDone && !post.isApproved && <Button onClick={()=>approvePost(post._id)}>Tasdiqlash</Button>} {post.isApproved && <Check/>} {post.isnotified && "Ogohlantirilgan"} { !post.isDone && post.areTenDaysPassed && !post.isnotified &&<Dialog className={`relative z-50`}>
                                                 <DialogTrigger asChild>
                                                     <Button  className={`relative z-50`}>Ogohlantirish</Button>

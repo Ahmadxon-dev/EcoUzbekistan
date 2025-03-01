@@ -10,10 +10,13 @@ function Navbar(props) {
     const userData = useSelector(state=>state.user.userData)
     const dispatch = useDispatch()
     const [isHovered, setIsHovered] = useState(false);
+    const [isUserActive, setIsUserActive] = useState(false)
     // localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzNlNDUzNjgyODIwZjAwMDg0NmQ0NzAiLCJpYXQiOjE3NDAyNDI3OTd9.9M1UOMAaPnqOHPZdTpeHLe-XUtseQCSNgulbATlin5k")
     const getUser = async ()=>{
         const jwt = localStorage.getItem("token")
+        if (!jwt) return
         if (jwt)
+            setIsUserActive(true)
             await fetch(`${import.meta.env.VITE_SERVER}/inspector/getuser`, {
                 method:"post",
                 headers:{
@@ -24,7 +27,9 @@ function Navbar(props) {
                 })
             })
                 .then(res=>res.json())
-                .then(data=>dispatch(setArray(data)))
+                .then(data=> {
+                    dispatch(setArray(data))
+                })
     }
     useEffect(() => {
         getUser()
@@ -46,11 +51,25 @@ function Navbar(props) {
                             src={isHovered ? logo_light_green : logo_white_green}
                             width={52}
                             height={40}
+                            fetchPriority="high"
                             alt="EcoUzbekistan Logo"
                         />
-                        <span className={`text-xl ${isHovered ? "text-[#5DB432]" : "text-white"}`}>EcoUzbekistan</span>
+                        <div className="flex flex-col justify-center gap-0 ">
+                            <span className={`text-xl p-0 m-0  ${isHovered ? "text-[#5DB432]":"text-white"}`} style={{ lineHeight: '1' }}>Eco  </span>
+                            <span className={`text-xl p-0 m-0 ${isHovered ? "text-[#5DB432]":"text-white"}`} style={{ lineHeight: '1' }}>Uzbekistan</span>
+                        </div>
+
                     </Link>
                     <nav className="flex items-center gap-4 text-md font-medium">
+                        { !isUserActive && <>
+                            <Link to="/statistics" className="text-white transition-colors hover:text-[#5DB432]">
+                                Statistika
+                            </Link>
+                            <Link to="/inspector" className="text-white transition-colors hover:text-[#5DB432]">
+                                Inspektor
+                            </Link>
+                        </>
+                        }
                         {userData.role === "inspector" ? (
                             <>
                                 <Link to="/inspector/statistics" className="text-white transition-colors hover:text-[#5DB432]">
@@ -68,15 +87,6 @@ function Navbar(props) {
                                     className="text-white transition-colors hover:text-[#5DB432]"
                                 >
                                     Chiqish
-                                </Link>
-                            </>
-                        ) : !userData.role ? (
-                            <>
-                                <Link to="/statistics" className="text-white transition-colors hover:text-[#5DB432]">
-                                    Statistika
-                                </Link>
-                                <Link to="/inspector" className="text-white transition-colors hover:text-[#5DB432]">
-                                    Inspektor
                                 </Link>
                             </>
                         ) : userData.role === "admin" ? (
