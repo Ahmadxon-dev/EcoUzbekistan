@@ -7,7 +7,7 @@ const login = require("../middleware/login")
 // /inspector/....
 router.post("/signup", async (req, res) => {
     const {email, password, region, name, role} = req.body
-    if (!email || !password || !region) {
+    if ((!email || !password || !region) && role!=='admin') {
         return res.status(400).json({error: "Hamma maydonlarni to'ldiring"})
     }
     Inspector.findOne({email: email})

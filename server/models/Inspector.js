@@ -17,7 +17,7 @@ const inspectorAuthSchema = new Schema({
     },
     region:{
         type:String,
-        required:true
+        required:false
     },
     role: {
         type: String,

@@ -14,7 +14,6 @@ app.use(cors({
     credentials:true,
     optionsSuccessStatus: 200,
 }))
-// console.log(process.env.MONGO_URI)
 app.use(express.json())
 
 app.use("",require("./routes/post"))
@@ -22,9 +21,9 @@ app.use("/inspector", require('./routes/authinspector'))
 app.use("/admin", require("./routes/admin"))
 
 deadlineLogic()
-mongoose.connect(process.env.MONGO_URI+"/test3").then(()=>console.log("db connected successfully")).catch(err=> console.log(err))
+mongoose.connect(process.env.MONGO_URI).then(()=>console.log("db connected successfully")).catch(err=> console.log(err))
 app.get('/', (req,res)=>{
-    res.send('hello')
+    res.send('Server working')
 })
 
 
